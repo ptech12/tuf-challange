@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
 const CodeSubmissionForm = ({
-  formData,
-  setFormData,
+  username,
+  language,
+  stdin,
+  sourceCode,
   handleChange,
-  handleSubmit,
+  handleSubmit
 }) => {
   return (
     <div>
@@ -15,8 +17,8 @@ const CodeSubmissionForm = ({
           type="text"
           id="username"
           name="username"
-          value={formData.username}
-          onChange={handleChange}
+          value={username}
+          onChange={(e) => handleChange(e)}
           required
           placeholder="Enter username"
         />
@@ -28,8 +30,8 @@ const CodeSubmissionForm = ({
         <select
           id="language"
           name="language"
-          value={formData.language}
-          onChange={handleChange}
+          value={language}
+          onChange={(e) => handleChange(e)}
           required
         >
           <option value="c++">C++</option>
@@ -45,8 +47,8 @@ const CodeSubmissionForm = ({
         <textarea
           id="sourceCode"
           name="sourceCode"
-          value={formData.sourceCode}
-          onChange={handleChange}
+          value={sourceCode}
+          onChange={(e) => handleChange(e)}
           rows="10"
           cols="50"
           required
@@ -58,8 +60,8 @@ const CodeSubmissionForm = ({
         <textarea
           id="stdin"
           name="stdin"
-          value={formData.stdin}
-          onChange={handleChange}
+          value={stdin}
+          onChange={(e) => handleChange(e)}
           rows="5"
           cols="30"
         ></textarea>
