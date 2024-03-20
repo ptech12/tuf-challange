@@ -1,8 +1,9 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import CodeSubmissionForm from "./components/CodeSubmissionForm";
 import DisplayCodeSubmission from "./components/DisplayCodeSubmission";
 import usrApi from "./api/usrApi";
+import { json } from "react-router-dom";
 
 function App() {
   // const langs = {
@@ -11,13 +12,12 @@ function App() {
   //   3: "Javascript",
   //   4: "Python",
   // };
-  const [username, setUsername] = useState("")
-  const [language, setLanguage] = useState('');
-  const [stdin, setStdin] = useState('');
+  const [username, setUsername] = useState("");
+  const [language, setLanguage] = useState("");
+  const [stdin, setStdin] = useState("");
   const [sourceCode, setSourceCode] = useState("");
 
-  const [backendData, setBackendData] = useState({
-  });
+  const [backendData, setBackendData] = useState({});
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -44,53 +44,72 @@ function App() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  // ref
+  const ref = useRef();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitted(true);
     const data = {
-      "username": username,
-      "language": language,
-      "stdin": stdin,
-      "sourceCode": sourceCode
-    }
+      username: username,
+      language: language,
+      stdin: stdin,
+      sourceCode: sourceCode,
+    };
     console.log(data);
     // Here you can handle form submission, e.g., send data to backend
     // console.log(formData);
-    try {
-      const result = await usrApi.post("/submission/add", data);
-      const resData = result.data
-      setBackendData({
-        // ...backendData, 
-        resData
-      })
+    const insertData = async () => {
+      try {
+        // const insertData = async () => {
+        //   fetch("https://tuf-backend-venc.onrender.com/submission", {
+        //     method: "POST",
+        //     body: JSON.stringify(
+        //       data
+        //     ),
+        //     headers: {
+        //       "Content-type": "application/json; charset=UTF-8"
+        //     }
+        //   })
+        //   .then(respone => respone.json())
+        //   .then((respData) => console.log(respData))
 
-    } catch (err) {
-      console.error(`Error: ${err.message}`);
-      alert(`Error: ${err.message}`);
-    }
-    // console.log(backendData);
+        const result = await usrApi.post("/submission/add", data);
+        // console.log(result.data[0]);
+        setBackendData(result.data[0])
+
+        // const resData = result.data
+        // setBackendData({
+        //   // ...backendData,
+        //   resData
+        // })
+      } catch (err) {
+        console.error(`Error: ${err.message}`);
+        alert(`Error: ${err.message}`);
+      }
+    };
+
+    insertData();
+
+    ref.current?.scrollIntoView({ behavior: smooth });
   };
-
-  const handleSet = d => {
-    setBackendData({
-      // ...backendData, 
-      d
-    })
-    console.log(backendData);
-  }
 
   return (
     <>
-      <CodeSubmissionForm
-        username={username}
-        language={language}
-        stdin={stdin}
-        sourceCode={sourceCode}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-      />
       {/* {console.log(username)} */}
-      {!isSubmitted ? <></> : <DisplayCodeSubmission data={backendData.resData} />}
+      {!isSubmitted ? (
+        <CodeSubmissionForm
+          username={username}
+          language={language}
+          stdin={stdin}
+          sourceCode={sourceCode}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+        />
+      ) : (
+        <> <p>{[backendData]}</p> </>
+      )}
+      {/* /> : <DisplayCodeSubmission ref={ref} data={backendData.resData} />} */}
     </>
   );
 }
