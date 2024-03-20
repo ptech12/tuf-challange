@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import "../App.css"
+
 const CodeSubmissionForm = ({
   username,
   language,
@@ -9,9 +11,9 @@ const CodeSubmissionForm = ({
   handleSubmit
 }) => {
   return (
-    <div>
+    <div className="formContainer">
       <h2>Submit Code</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="formBox">
         <label htmlFor="username">Username:</label>
         <input
           type="text"
