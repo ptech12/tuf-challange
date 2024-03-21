@@ -10,10 +10,7 @@ const DisplayCodeSubmission = () => {
   );
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const submit = data;
-    setSubmissions(submit);
-  }, []);
+
 
   return (
     <section className="page2">
