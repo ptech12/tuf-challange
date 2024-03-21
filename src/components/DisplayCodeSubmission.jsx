@@ -1,19 +1,30 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import "../App.css";
 import useAxiosFetch from "../hooks/useAxiosFetch";
-import TableRow from "./TableRow"; 
+import TableRow from "./TableRow";
+import { useNavigate } from "react-router-dom";
 
 const DisplayCodeSubmission = () => {
-  // console.log(data);
-  // const [submission, setSubmission] = useState();
-
   const { data, fetchError, isLoading } = useAxiosFetch(
     "https://tuf-backend-venc.onrender.com/submission/"
   );
-  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const submit = data;
+    setSubmissions(submit);
+  }, []);
 
   return (
     <section className="page2">
+      <button onClick={() => navigate("/")}>
+        {" "}
+        &#8592; return back to code
+      </button>
+      <br />
+      <h4>
+        if your submission does not show, just hit refresh
+      </h4>
       <table>
         <thead>
           <tr>
@@ -25,9 +36,17 @@ const DisplayCodeSubmission = () => {
             <th>Time Stamp</th>
           </tr>
         </thead>
-          <TableRow data={data}/>
+        {data.length === 0 ? (
+          <tbody>
+            <tr>
+              <td>Nothing to show</td>
+            </tr>
+          </tbody>
+        ) : (
+          <TableRow data={data} />
+        )}
 
-          {/* <tr>
+        {/* <tr>
             <td>{submission.id}</td>
             <td>{submission.username}</td>
             <td>{submission.lang}</td>

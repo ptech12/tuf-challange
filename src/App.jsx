@@ -1,9 +1,9 @@
 import "./App.css";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import CodeSubmissionForm from "./components/CodeSubmissionForm";
 import DisplayCodeSubmission from "./components/DisplayCodeSubmission";
 import usrApi from "./api/usrApi";
-import { json } from "react-router-dom";
+import { Outlet, Routes, Route, useNavigate } from "react-router-dom";
 
 function App() {
   // const langs = {
@@ -46,6 +46,7 @@ function App() {
 
   // ref
   const ref = useRef();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -61,40 +62,36 @@ function App() {
     // console.log(formData);
     const insertData = async () => {
       try {
-        // const insertData = async () => {
-        //   fetch("https://tuf-backend-venc.onrender.com/submission", {
-        //     method: "POST",
-        //     body: JSON.stringify(
-        //       data
-        //     ),
-        //     headers: {
-        //       "Content-type": "application/json; charset=UTF-8"
-        //     }
-        //   })
-        //   .then(respone => respone.json())
-        //   .then((respData) => console.log(respData))
-
         const result = await usrApi.post("/submission/add", data);
-
-        // const resData = result.data
-        // setBackendData({
-        //   // ...backendData,
-        //   resData
-        // })
       } catch (err) {
         console.error(`Error: ${err.message}`);
         alert(`Error: ${err.message}`);
       }
     };
-
     insertData();
-
-    ref.current?.scrollIntoView({ behavior: smooth });
+    navigate("/submissions");
   };
 
   return (
     <>
-    {!isSubmitted ? (
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <CodeSubmissionForm
+              username={username}
+              language={language}
+              stdin={stdin}
+              sourceCode={sourceCode}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+            />
+          }
+        />
+        <Route path="/submissions" element={<DisplayCodeSubmission />} />
+      </Routes>
+
+      {/* {!isSubmitted ? (
         <CodeSubmissionForm
           username={username}
           language={language}
@@ -104,13 +101,14 @@ function App() {
           handleSubmit={handleSubmit}
         />
       ) : (
-        <DisplayCodeSubmission  />
+        // <DisplayCodeSubmission  />
+        <Outlet />
       )}
     {/* <DisplayCodeSubmission  /> */}
       {/* {console.log(username)}
       
       {/* /> : <DisplayCodeSubmission ref={ref} data={backendData.resData} />} */}
-      {/* <DisplayCodeSubmission ref={ref} /> *} */}
+      {/* <DisplayCodeSubmission ref={ref} />  */}
     </>
   );
 }

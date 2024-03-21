@@ -17,6 +17,12 @@ const TableData = ({ id, username, lang, stdin, src_code, created }) => {
     
         return formattedDate;
       };
+      /* {
+                post.body.length <= 25
+                 ? post.body
+                 : `${(post.body).slice(0, 30)+'...'}`
+
+            } */
   return (
     <tbody>
       <tr>
@@ -24,7 +30,7 @@ const TableData = ({ id, username, lang, stdin, src_code, created }) => {
         <td>{username}</td>
         <td>{lang}</td>
         <td>{stdin}</td>
-        <td>{src_code}</td>
+        <td>{src_code.length <= 100 ? src_code : `${(src_code).slice(0, 101)+'...'}`}</td>
         <td>{displayTimeStamp(created)}</td>
       </tr>
       {/* <tr><td>{username}</td></tr> */}

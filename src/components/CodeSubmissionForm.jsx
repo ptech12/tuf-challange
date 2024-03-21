@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import "../App.css"
+import { Link } from "react-router-dom";
 
 const CodeSubmissionForm = ({
   username,
@@ -69,7 +70,10 @@ const CodeSubmissionForm = ({
         ></textarea>
         <br />
         <br />
-        <input type="submit" value="Submit" />
+        <Link to="/submissions">
+        </Link> 
+          <input type="submit" value="Submit" />
+        
       </form>
     </div>
   );
