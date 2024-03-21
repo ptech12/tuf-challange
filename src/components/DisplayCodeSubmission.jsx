@@ -1,27 +1,19 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import "../App.css";
+import useAxiosFetch from "../hooks/useAxiosFetch";
+import TableRow from "./TableRow"; 
 
-const DisplayCodeSubmission = ({ data }, ref) => {
-  console.log(data);
-  const displayTimeStamp = (timestamp) => {
-    const date = new Date(timestamp);
+const DisplayCodeSubmission = () => {
+  // console.log(data);
+  // const [submission, setSubmission] = useState();
 
-    // Format the date and time using options for locale and date/time style
-    const formattedDate = date.toLocaleString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      timeZone: "Asia/Calcutta",
-    });
+  const { data, fetchError, isLoading } = useAxiosFetch(
+    "https://tuf-backend-venc.onrender.com/submission/"
+  );
+  
 
-    return formattedDate;
-  };
-  // return (<></>)
   return (
-    <section ref={ref} className="page2">
+    <section className="page2">
       <table>
         <thead>
           <tr>
@@ -33,16 +25,16 @@ const DisplayCodeSubmission = ({ data }, ref) => {
             <th>Time Stamp</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>{data.id}</td>
-            <td>{data.username}</td>
-            <td>{data.lang}</td>
-            <td>{data.stdin}</td>
-            <td>{data.src_code.length <= 100 ? data.src_code : `${(data.src_code).slice(0, 99)+'...'}`}</td>
-            <td>{displayTimeStamp(data.created)}</td>
-          </tr>
-        </tbody>
+          <TableRow data={data}/>
+
+          {/* <tr>
+            <td>{submission.id}</td>
+            <td>{submission.username}</td>
+            <td>{submission.lang}</td>
+            <td>{submission.stdin}</td>
+            <td>{submission.src_code.length <= 100 ? submission.src_code : `${(submission.src_code).slice(0, 99)+'...'}`}</td>
+            <td>{displayTimeStamp(submission.created)}</td>
+          </tr> */}
       </table>
     </section>
   );

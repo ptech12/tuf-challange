@@ -75,8 +75,6 @@ function App() {
         //   .then((respData) => console.log(respData))
 
         const result = await usrApi.post("/submission/add", data);
-        // console.log(result.data[0]);
-        setBackendData(result.data[0])
 
         // const resData = result.data
         // setBackendData({
@@ -96,8 +94,7 @@ function App() {
 
   return (
     <>
-      {/* {console.log(username)} */}
-      {!isSubmitted ? (
+    {!isSubmitted ? (
         <CodeSubmissionForm
           username={username}
           language={language}
@@ -107,9 +104,13 @@ function App() {
           handleSubmit={handleSubmit}
         />
       ) : (
-        <> <p>{[backendData]}</p> </>
+        <DisplayCodeSubmission  />
       )}
+    {/* <DisplayCodeSubmission  /> */}
+      {/* {console.log(username)}
+      
       {/* /> : <DisplayCodeSubmission ref={ref} data={backendData.resData} />} */}
+      {/* <DisplayCodeSubmission ref={ref} /> *} */}
     </>
   );
 }
