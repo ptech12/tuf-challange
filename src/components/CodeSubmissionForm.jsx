@@ -70,10 +70,11 @@ const CodeSubmissionForm = ({
         ></textarea>
         <br />
         <br />
-        <Link to="/submissions">
+        <Link to="#/submissions">
         </Link> 
           <input type="submit" value="Submit" />
         
+      <p>Already submitted? <Link to={"/submissions"}>Show Results</Link></p>
       </form>
     </div>
   );
